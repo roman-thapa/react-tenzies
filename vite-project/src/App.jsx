@@ -7,6 +7,7 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
     const [tenzies, setTenzies] = React.useState(false)
+    const [roll, setRoll] = React.useState(0)
     
     React.useEffect(() => {
         const allHeld = dice.every(die => die.isHeld)
@@ -35,6 +36,7 @@ export default function App() {
     
     function rollDice() {
         if(!tenzies) {
+            setRoll(prev => prev+1)
             setDice(oldDice => oldDice.map(die => {
                 return die.isHeld ? 
                     die :
@@ -43,6 +45,7 @@ export default function App() {
         } else {
             setTenzies(false)
             setDice(allNewDice())
+            setRoll(0)
         }
     }
     
@@ -69,7 +72,10 @@ export default function App() {
             <h1 className="title">Tenzies</h1>
             <p className="instructions">
                 {tenzies ? 
-                <><p>All dice are same.</p>You Won</>
+                <>
+                    <p>You Won</p>
+                    It took you {roll} number of rolls to complete
+                </>
                 :
                 <>
                     <p>Roll until all dice are the same.</p>
